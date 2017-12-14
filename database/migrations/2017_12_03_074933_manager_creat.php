@@ -14,10 +14,10 @@ class ManagerCreat extends Migration
     public function up()
     {
         Schema::create('manager', function (Blueprint $table) {
-            $table->increments('Manager_id');
-            $table->string('Account');
+            $table->increments('manager_id');
+            $table->integer('account');
             $table->timestamps();
-            $table->foreign('Manager_id')->references('id')->on('users');
+            $table->foreign('manager_id')->references('id')->on('users');
         });
     }
 

@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class OrderCreat extends Migration
+class StaffCreat extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,11 @@ class OrderCreat extends Migration
      */
     public function up()
     {
-        Schema::create('order', function (Blueprint $table) {
-            $table->increments('shop_id');
-            $table->string('state');
-            $table->date('buy_date');
+        Schema::create('staff', function (Blueprint $table) {
+            $table->increments('staff_id');
+            $table->integer('salary');
             $table->timestamps();
-            $table->softDeletes();
-            $table->foreign('shop_id')->references('shop_id')->on('shop');
+            $table->foreign('staff_id')->references('id')->on('users');
         });
     }
 
@@ -30,6 +28,6 @@ class OrderCreat extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('order');
+        Schema::dropIfExists('staff');
     }
 }

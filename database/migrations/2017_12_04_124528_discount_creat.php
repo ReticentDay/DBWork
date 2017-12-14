@@ -19,6 +19,7 @@ class DiscountCreat extends Migration
             $table->dateTime('start_date');
             $table->dateTime('end_date');
             $table->timestamps();
+            $table->softDeletes();
             $table->foreign('product_id')->references('product_id')->on('product');
         });
     }

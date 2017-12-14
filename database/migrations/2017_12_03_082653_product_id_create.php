@@ -19,7 +19,7 @@ class ProductIdCreate extends Migration
             $table->float('price');
             $table->string('state');
             $table->integer('click_count');
-            $table->string('photo');
+            $table->binary('photo');
             $table->string('product_name');
             $table->longText('info');
             $table->integer('stock');

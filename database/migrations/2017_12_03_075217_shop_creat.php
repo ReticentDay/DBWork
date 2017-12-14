@@ -15,9 +15,10 @@ class ShopCreat extends Migration
     {
         Schema::create('shop', function (Blueprint $table) {
             $table->increments('shop_id');
-            $table->integer('Member_id')->unsigned()->index();
+            $table->integer('member_id')->unsigned()->index();
             $table->timestamps();
-            $table->foreign('Member_id')->references('id')->on('users');
+            $table->softDeletes();
+            $table->foreign('member_id')->references('id')->on('users');
         });
     }
 

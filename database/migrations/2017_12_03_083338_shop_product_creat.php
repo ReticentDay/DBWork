@@ -17,7 +17,7 @@ class ShopProductCreat extends Migration
             $table->integer('shop_id')->unsigned()->index();
             $table->integer('product_id')->unsigned()->index();
             $table->string('state');
-            $table->integer('Quantity');
+            $table->integer('quantity');
             $table->timestamps();
             $table->foreign('shop_id')->references('shop_id')->on('shop');
             $table->foreign('product_id')->references('product_id')->on('product');

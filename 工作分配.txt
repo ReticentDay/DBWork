@@ -45,15 +45,17 @@
 		●財務報表顯示{GET}：/money
 
 controller分配：
-	product
-	shop
-	user
-	money
+	ProductController
+	ShopController
+	UserController
+	MoneyController
+	OtherController
 
 各類分支：
 	controller_product
 	controller_shop
 	controller_user
+	controller_other
 	view
 
 view schedule：

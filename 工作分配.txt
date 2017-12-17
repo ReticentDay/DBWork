@@ -1,58 +1,91 @@
-¡´­º­¶{GET}¡G/
+ï»¿router schedule:
+	â—é¦–é {GET}ï¼š/
 
-°Ó«~¬d¸ß¨t²Î
-	¡´°Ó«~¥Ø¿ı{GET}¡G/product
-	¡´°Ó«~¬d¸ß{GET}¡G/product/serch/{«¬ºA}/{ÃöÁä¦r}
-	¡´°Ó«~­¶­±{GET}¡G/product/{id}
+	å•†å“æŸ¥è©¢ç³»çµ±
+		â—å•†å“ç›®éŒ„{GET}ï¼š/product
+		â—å•†å“æŸ¥è©¢{GET}ï¼š/product/serch/{å‹æ…‹}/{é—œéµå­—}
+		â—å•†å“é é¢{GET}ï¼š/product/{id}
 
-ÁÊª«¨t²Î
-	¡³°Ó«~¥[¤JÁÊª«¨®{POST}¡G/shop/add
-	¡´°Ó«~ÁÊª«¨®¬d¸ß{POST}¡G/shop/list
-	¡´°Ó«~µ²±b­¶­±{POST}¡G/shop/order
-	¡³°Ó«~µ²±b{POST}¡G/shop/order/over
+	è³¼ç‰©ç³»çµ±
+		â—‹å•†å“åŠ å…¥è³¼ç‰©è»Š{POST}ï¼š/shop/add
+		â—å•†å“è³¼ç‰©è»ŠæŸ¥è©¢{POST}ï¼š/shop/list
+		â—å•†å“çµå¸³é é¢{POST}ï¼š/shop/order
+		â—‹å•†å“çµå¸³{POST}ï¼š/shop/order/over
 
-·|­û¸ê®Æ¨t²Î
-	¡´·|­û¸ê®Æ¨t²Î{GET}¡G/user/{id}
-	¡´·|­û¸ê®Æ­×§ï{GET}¡G/user/{id}/edit
-	¡³·|­û¸ê®Æ­×§ï¤W¶Ç{PUT}¡G/user/{id}
+	æœƒå“¡è³‡æ–™ç³»çµ±
+		â—æœƒå“¡è³‡æ–™ç³»çµ±{GET}ï¼š/user/{id}
+		â—æœƒå“¡è³‡æ–™ä¿®æ”¹{GET}ï¼š/user/{id}/edit
+		â—‹æœƒå“¡è³‡æ–™ä¿®æ”¹ä¸Šå‚³{PUT}ï¼š/user/{id}
 
-°Ó«~¤W¬[¨t²Î
-	¡´°Ó«~¤W¬[½s¿è{GET}¡G/product/create
-	¡³°Ó«~¤W¬[Àx¦s{POST}¡G/product
-	¡´°Ó«~­×§ï{GET}¡G/product/{id}/edit
-	¡³°Ó«~­×§ï¤W¶Ç{PUT}¡G/product/{id}
-	¡³°Ó«~¤U¬[{DELETE}¡G/product/{id}
+	å•†å“ä¸Šæ¶ç³»çµ±
+		â—å•†å“ä¸Šæ¶ç·¨è¼¯{GET}ï¼š/product/create
+		â—‹å•†å“ä¸Šæ¶å„²å­˜{POST}ï¼š/product
+		â—å•†å“ä¿®æ”¹{GET}ï¼š/product/{id}/edit
+		â—‹å•†å“ä¿®æ”¹ä¸Šå‚³{PUT}ï¼š/product/{id}
+		â—‹å•†å“ä¸‹æ¶{DELETE}ï¼š/product/{id}
 
-§é¦©ºŞ²z¨t²Î
-	¡´°Ó«~«h¦©¼W¥[{GET}¡G/discount/create
-	¡³°Ó«~«h¦©Àx¦s{POST}¡G/discount
-	¡´°Ó«~«h¦©¬d¸ß{GET}¡G/discount/serch/{product_id}
-	¡³°Ó«~«h¦©§ó§ï{PUT}¡G/discount/{discount_id}
+	æŠ˜æ‰£ç®¡ç†ç³»çµ±
+		â—å•†å“å‰‡æ‰£å¢åŠ {GET}ï¼š/discount/create
+		â—‹å•†å“å‰‡æ‰£å„²å­˜{POST}ï¼š/discount
+		â—å•†å“å‰‡æ‰£æŸ¥è©¢{GET}ï¼š/discount/serch/{product_id}
+		â—‹å•†å“å‰‡æ‰£æ›´æ”¹{PUT}ï¼š/discount/{discount_id}
 
-­q³æºŞ²z¨t²Î
-	¡´­q³æ·j´M¨t²Î{GET}¡G/shop/serch/{ÃöÁä¦r}
-	¡´­q³æ½T»{¨t²Î{GET}¡G/shop/{id}
-	¡´­q³æ­×§ï­¶­±{GET}¡G/shop/{id}/edit
-	¡³­q³æ­×§ï{PUT}¡G/shop/{id}
+	è¨‚å–®ç®¡ç†ç³»çµ±
+		â—è¨‚å–®æœå°‹ç³»çµ±{GET}ï¼š/shop/serch/{é—œéµå­—}
+		â—è¨‚å–®ç¢ºèªç³»çµ±{GET}ï¼š/shop/{id}
+		â—è¨‚å–®ä¿®æ”¹é é¢{GET}ï¼š/shop/{id}/edit
+		â—‹è¨‚å–®ä¿®æ”¹{PUT}ï¼š/shop/{id}
 
-·|­ûºŞ²z¨t²Î
-	¡´·|­ûª¬ºA¦Cªí{GET}¡G/user/type
-	¡´·|­ûª¬ºA¬d¸ß{GET}¡G/user/type/serch/{ÃöÁä¦r}
-	¡³·|­ûª¬ºA§ó·s{POST}¡G/user/type
+	æœƒå“¡ç®¡ç†ç³»çµ±
+		â—æœƒå“¡ç‹€æ…‹åˆ—è¡¨{GET}ï¼š/user/type
+		â—æœƒå“¡ç‹€æ…‹æŸ¥è©¢{GET}ï¼š/user/type/serch/{é—œéµå­—}
+		â—‹æœƒå“¡ç‹€æ…‹æ›´æ–°{POST}ï¼š/user/type
 
-°]°È³øªí¨t²Î
-	¡´°]°È³øªíÅã¥Ü{GET}¡G/money
-	
-	
+	è²¡å‹™å ±è¡¨ç³»çµ±
+		â—è²¡å‹™å ±è¡¨é¡¯ç¤º{GET}ï¼š/money
 
-controller¤À°t¡G
-product
-shop
-user
-money
+controlleråˆ†é…ï¼š
+	product
+	shop
+	user
+	money
 
-¦UÃş¤À¤ä
-controller_product
-controller_shop
-controller_user
-view
+å„é¡åˆ†æ”¯ï¼š
+	controller_product
+	controller_shop
+	controller_user
+	view
+
+view scheduleï¼š
+	å•†å“æŸ¥è©¢ç³»çµ±(ProductInquirySystem)
+	å•†å“ç›®éŒ„ï¼šindex.blade.php
+	å•†å“æŸ¥è©¢ï¼šsearch.blade.php
+	å•†å“é é¢ï¼šshow.blade.php
+
+	è³¼ç‰©ç³»çµ±(ShoppingSystem)
+	å•†å“è³¼ç‰©è»ŠæŸ¥è©¢ï¼šlist.blade.php
+	å•†å“çµå¸³é é¢ï¼šorder.blade.php
+
+	æœƒå“¡è³‡æ–™ç³»çµ±(MemberInformationSystem)
+	æœƒå“¡è³‡æ–™ç³»çµ±ï¼šshow.blade.php
+	æœƒå“¡è³‡æ–™ä¿®æ”¹ï¼šfix.blade.php
+
+	å•†å“ä¸Šæ¶ç³»çµ±(GoodsShelvesSystem)
+	å•†å“ä¸Šæ¶ç·¨è¼¯ï¼šcreate.blade.php
+	å•†å“ä¿®æ”¹ï¼šfix.blade.php
+
+	æŠ˜æ‰£ç®¡ç†ç³»çµ±(DiscountManagementSystem)
+	å•†å“å‰‡æ‰£å¢åŠ ï¼šcreate.blade.php
+	å•†å“å‰‡æ‰£æŸ¥è©¢ï¼šsearch.blade.php
+
+	è¨‚å–®ç®¡ç†ç³»çµ±(OrderManagementSystem)
+	è¨‚å–®æœå°‹ç³»çµ±ï¼šsearch.blade.php
+	è¨‚å–®ç¢ºèªç³»çµ±ï¼šcheck.blade.php
+	è¨‚å–®ä¿®æ”¹é é¢ï¼šfix.blade.php
+
+	æœƒå“¡ç®¡ç†ç³»çµ±(MemberManagementSystem)
+	æœƒå“¡ç‹€æ…‹åˆ—è¡¨ï¼šlist.blade.php
+	æœƒå“¡ç‹€æ…‹æŸ¥è©¢ï¼šsearch.blade.php
+
+	è²¡å‹™å ±è¡¨ç³»çµ±(FinancialReportingSystem)
+	è²¡å‹™å ±è¡¨é¡¯ç¤ºï¼šindex.blade.php

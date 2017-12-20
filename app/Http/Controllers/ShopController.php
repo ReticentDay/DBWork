@@ -31,7 +31,7 @@ class ShopController extends Controller
                                     and sc.state = "NO"
                                     and sp.shop_id = sc.shop_id
                                     and sc.product_id = p.product_id',$member_id);
-        return view(,);
+        return view('ShoppingSystem.list',['product'=>$product]);
     }
     /**
      * Show the form for creating a new resource.

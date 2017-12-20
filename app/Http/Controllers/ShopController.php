@@ -16,6 +16,23 @@ class ShopController extends Controller
         //
     }
 
+    public function add(Request $request)
+    {
+
+    }
+
+    public function list(Request $request)
+    {
+       $member_id = $request->input('member_id');
+       $product = DB::select('   select p.Product_name,p.Price
+                                    from SHOP s,SHOPINGCART sc,SHOPPRODUCT sp,PRODUCT p
+                                    where s.member_id = ?
+                                    and s.shop_id = sc.shop_id
+                                    and sc.state = "NO"
+                                    and sp.shop_id = sc.shop_id
+                                    and sc.product_id = p.product_id',$member_id);
+        return view(,);
+    }
     /**
      * Show the form for creating a new resource.
      *
@@ -81,4 +98,5 @@ class ShopController extends Controller
     {
         //
     }
+    
 }

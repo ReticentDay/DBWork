@@ -1,0 +1,33 @@
+view schedule：
+	商品查詢系統(ProductInquirySystem)
+	商品目錄：index.blade.php
+	商品查詢：search.blade.php
+	商品頁面：show.blade.php
+
+	購物系統(ShoppingSystem)
+	商品購物車查詢：list.blade.php
+	商品結帳頁面：order.blade.php
+
+	會員資料系統(MemberInformationSystem)
+	會員資料系統：show.blade.php
+	會員資料修改：fix.blade.php
+
+	商品上架系統(GoodsShelvesSystem)
+	商品上架編輯：create.blade.php
+	商品修改：fix.blade.php
+
+	折扣管理系統(DiscountManagementSystem)
+	商品則扣增加：create.blade.php
+	商品則扣查詢：search.blade.php
+
+	訂單管理系統(OrderManagementSystem)
+	訂單搜尋系統：search.blade.php
+	訂單確認系統：check.blade.php
+	訂單修改頁面：fix.blade.php
+
+	會員管理系統(MemberManagementSystem)
+	會員狀態列表：list.blade.php
+	會員狀態查詢：search.blade.php
+
+	財務報表系統(FinancialReportingSystem)
+	財務報表顯示：index.blade.php

@@ -2,7 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use Gate;
+use DB;
+use App\User;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
+
 
 class ShopController extends Controller
 {
@@ -18,19 +23,25 @@ class ShopController extends Controller
 
     public function add(Request $request)
     {
-
+        $member_id = Auth::user()->id;
+        $product_id = $request->input('product_id');
+        DB::select('insert into SHOPPRODUCT(shop_id,product_id,)
+                    select s.shop_id
+                    from SHOP s,SHOPPRODUCT sp
+                    where s.shop_id');
     }
 
     public function list(Request $request)
     {
-       $member_id = $request->input('member_id');
+       $member_id = Auth::user()->id;
        $product = DB::select('   select p.Product_name,p.Price
                                     from SHOP s,SHOPINGCART sc,SHOPPRODUCT sp,PRODUCT p
-                                    where s.member_id = ?
+                                    where s.member_id = :id
                                     and s.shop_id = sc.shop_id
                                     and sc.state = "NO"
                                     and sp.shop_id = sc.shop_id
-                                    and sc.product_id = p.product_id',$member_id);
+                                    and sc.product_id = p.product_id',['id' => $member_id]);
+        dd($product);
         return view('ShoppingSystem.list',['product'=>$product]);
     }
     /**

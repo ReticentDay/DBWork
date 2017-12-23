@@ -56,8 +56,7 @@ class UserController extends Controller
         {
             return "You can't see this";
         }
-        $userCheck = DB::select('select * from users where id = :id', ['id' => $id]);
-        if(Gate::denies('checkUser', $userCheck))
+        if(Auth::user()->id != $id)
         {
             return "You can't see this";
         }
@@ -75,6 +74,17 @@ class UserController extends Controller
     public function edit($id)
     {
         //會員資料修改{GET}：/user/{id}/edit
+        if(!Auth::check())
+        {
+            return "You can't see this";
+        }
+        if(Auth::user()->id != $id)
+        {
+            return "You can't see this";
+        }
+        $userCheck = DB::select(    'select address,birthday,phont,sex
+                                    from users where id = :id', ['id' => $id]);
+        return view('test/test',['users' => $userCheck]);
     }
 
     /**
@@ -87,6 +97,24 @@ class UserController extends Controller
     public function update(Request $request, $id)
     {
         //會員資料修改上傳{PUT}：/user/{id}
+        if(!Auth::check())
+        {
+            return "You can't see this";
+        }
+        if(Auth::user()->id != $id)
+        {
+            return "You can't see this";
+        }
+        $affected = DB::update('update users 
+                                set address = :address, birthday = :birthday, phont = :phont, sex = :sex 
+                                where id = :id', 
+                               ['address' => $request->input['address'] , 
+                                'birthday' => $request->input['birthday'] ,
+                                'sex' => $request->input['sex'] ,
+                                'id' => $id ,
+                                'phont' => $request->input['phone']]);
+
+        return view();
     }
 
     /**
@@ -107,15 +135,49 @@ class UserController extends Controller
     public function typeList()
     {
         //會員狀態列表{GET}：/user/type
+        
+        $userCheck = DB::select('select count(staff_id) from users where staff_id = :id'
+                                , ['id' => Auth::user()->id]);
+        dd($userCheck);
+        if(Auth::user()->user_type != "staff" && $userCheck[0]->count(staff_id) > 0)
+        {
+            return "You can't see this";
+        }
+        $userList = DB::select('select name,email,id,user_type from users');
+        return view('test/test',['userList' => $userList]);
     }
 
     public function typeListSerch($keyWord)
     {
         //會員狀態查詢{GET}：/user/type/serch/{關鍵字}
+        $userCheck = DB::select('select count(staff_id) from users where staff_id = :id'
+                                , ['id' => Auth::user()->id]);
+        dd($userCheck);
+        if(Auth::user()->user_type != "staff" && $userCheck[0]->count(staff_id) > 0)
+        {
+            return "You can't see this";
+        }
+        $userList = DB::select("select name,email,id,user_type from users 
+                                where name like '%:search%'
+                                or email like '%:search%'",
+                                ['search' => $keyWord]);
+        return view('test/test',['userList' => $userList]);
     }
 
     public function typeUpdate(Request $request)
     {
         //會員狀態更新{POST}：/user/type
+        $userCheck = DB::select('select count(staff_id) from users where staff_id = :id'
+                                , ['id' => Auth::user()->id]);
+        dd($userCheck);
+        if(Auth::user()->user_type != "staff" && $userCheck[0]->count(staff_id) > 0)
+        {
+            return "You can't see this";
+        }
+        $affected = DB::update('update users 
+                                set user_type = :user_type
+                                where id = :id', 
+                               ['user_type' => $request->input['user_type'] , 
+                                'id' => $request->input['id']]);
     }
 }

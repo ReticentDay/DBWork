@@ -20,3 +20,6 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 
 Route::resource('user', 'UserController');
+Route::get('/user/type', 'UserController@typeList');
+Route::get('/user/type/serch/{keyWord}', 'UserController@typeListSerch');
+Route::post('/user/type', 'UserController@typeUpdate');

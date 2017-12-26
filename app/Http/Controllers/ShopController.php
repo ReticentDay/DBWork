@@ -53,14 +53,42 @@ class ShopController extends Controller
        {
            return "Action Fail!";
        }
-       $product = DB::select('   select p.Product_name,p.Price
-                                    from shop s,shopping_cart sc,shop_product sp,product p
-                                    where s.member_id = :id
-                                    and s.shop_id = sc.shop_id
-                                    and sc.state = "NO"
-                                    and sp.shop_id = sc.shop_id
-                                    and sp.product_id = p.product_id',['id' => $member_id]);
+       $product = DB::select('select p.Product_name,p.Price
+                              from shop s,shopping_cart sc,shop_product sp,product p
+                              where s.member_id = :id
+                              and s.shop_id = sc.shop_id
+                              and sc.state = "NO"
+                              and sp.shop_id = sc.shop_id
+                              and sp.product_id = p.product_id',['id' => $member_id]);
         dd($product);
+    }
+
+    public function order(Request $request)
+    {
+        $member_id = Auth::user()->id;
+        $product = DB::('select p.product_name,p.price,d.rate
+                         from product p,shop s,discount d,shopping_cart sc,shop_product sp
+                         where s.member_id = :member_id
+                         and sc.state = "NO"
+                         and s.shop_id = sp.shop_id
+                         and sp.shop_id = p.product_id',['member_id' => $member_id]);
+    }
+
+    public function orderover(Request $request)
+    {
+        date_default_timezone_set('Asia/Taipei');
+        $datetime= date("Y/m/d H:i:s");
+        $member_id = Auth::user()->id;
+        $shop_id = DB::select('select max s.shop_id
+                               from shop s,shopping_cart sc
+                               where s.member_id = :id
+                               and s.shop_id = sc.shop_id
+        and sc.state = "NO"',['id' => $member_id]);
+        DB::update('update shopping_cart
+                    set state = "YES"
+                    where shop_id = :shop_id',['shop_id'=>$shop_id[0]->$shop_id]);
+        DB::insert('insert into order(shop_id,state,buy_date)
+                    values(:shop_id,"Not delivered",:date)',['shop_id'=>$shop_id[0]->$shop_id,'date'=>$datetime]);
     }
     /**
      * Show the form for creating a new resource.

@@ -25,24 +25,42 @@ class ShopController extends Controller
     {
         $member_id = Auth::user()->id;
         $product_id = $request->input('product_id');
-        DB::select('insert into SHOPPRODUCT(shop_id,product_id,)
-                    select s.shop_id
-                    from SHOP s,SHOPPRODUCT sp
-                    where s.shop_id');
+        $quantity = $request->input('quantity');
+        $shop_id = DB::select('select max s.shop_id
+                               from shop s,shopping_cart sc
+                               where s.member_id = :id
+                               and s.shop_id = sc.shop_id
+                               and sc.state = "NO"',['id' => $member_id]);
+        if($shop_id == NULL)
+        {
+            DB::insert('insert into shop(member_id)
+                        values(:member_id)',['member_id'=>$member_id]);
+            $shop_id = DB::select('select max s.shop_id
+                                   from shop s
+                                   where s.member_id = :id',['id' => $member_id]);
+            DB::insert('insert into shopping_cart(shop_id,state)
+                        values(:shop_id,"NO")',['shop_id'=>$shop_id[0]->shop_id);
+        }
+        DB::insert('insert into shop_product(shop_id,product_id,state,quantity)
+                    values(:shopid,:productid,:state,:quantity)',
+                    ['shopid'=>$shop_id[0]->shop_id,'productid'=>$product_id,'state' =>'shippig','quantity'=>$quantity]);
     }
 
     public function list(Request $request)
     {
        $member_id = Auth::user()->id;
+       if(!Auth::Check())
+       {
+           return "Action Fail!";
+       }
        $product = DB::select('   select p.Product_name,p.Price
-                                    from SHOP s,SHOPINGCART sc,SHOPPRODUCT sp,PRODUCT p
+                                    from shop s,shopping_cart sc,shop_product sp,product p
                                     where s.member_id = :id
                                     and s.shop_id = sc.shop_id
                                     and sc.state = "NO"
                                     and sp.shop_id = sc.shop_id
-                                    and sc.product_id = p.product_id',['id' => $member_id]);
+                                    and sp.product_id = p.product_id',['id' => $member_id]);
         dd($product);
-        return view('ShoppingSystem.list',['product'=>$product]);
     }
     /**
      * Show the form for creating a new resource.

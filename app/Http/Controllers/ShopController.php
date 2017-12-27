@@ -119,7 +119,14 @@ class ShopController extends Controller
      */
     public function show($id)
     {
-        //
+        $order = DB::select('select m.member_id ,m.name ,m.identity_card_number ,m.address ,p.product_name ,p.price,d.rate
+                             from member m ,shop s ,order o ,shop_product sp ,product p ,discount d
+                             where o.shop_id = :shop_id
+                             and sp.shop_id = o.shop_id
+                             and sp.product_id = p.product_id
+                             and sp.product_id = d.product_id
+                             and s.shop_id = o.shop_id
+                             and m.member_id = s.member_id',['shop_id'=>$id]);
     }
 
     /**
@@ -130,7 +137,9 @@ class ShopController extends Controller
      */
     public function edit($id)
     {
-        //
+        $order = DB::select('select o.state ,o.buy_date
+                             from order o
+                             where o.shop_id = :shop_id',['shop_id'=>$id]);
     }
 
     /**

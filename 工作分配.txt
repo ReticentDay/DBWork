@@ -90,4 +90,3 @@ view schedule：
 	會員狀態查詢：search.blade.php
 
 	財務報表系統(FinancialReportingSystem)
-	財務報表顯示：index.blade.php

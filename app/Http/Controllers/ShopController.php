@@ -151,7 +151,9 @@ class ShopController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        DB::update('update order
+                    set state = :state
+                    where shop_id = :shop_id',['state' => $request[0]->$state,'shop_id'=>$id]);
     }
 
     /**

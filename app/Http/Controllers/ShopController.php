@@ -111,6 +111,16 @@ class ShopController extends Controller
         //
     }
 
+    public function search(Request $request)
+    {
+        $order = DB::select('select m.member_id ,m.name ,m.identity_card_number ,m.address ,o.shop_id ,o.state ,o.buy_state ,p.product_name ,p.price,d.rate
+                             from member m ,shop s ,order o ,shop_product sp ,product p ,discount d
+                             where o.shop_id = sp.shop_id
+                             and sp.product_id = p.product_id
+                             and sp.product_id = d.product_id
+                             and (s.shop_id like "?") or (s.state like "?") or (p.product_id like "?")',[$request[0]->$input,$request[0]->$input,$request[0]->$input]);
+    }
+
     /**
      * Display the specified resource.
      *
@@ -119,7 +129,7 @@ class ShopController extends Controller
      */
     public function show($id)
     {
-        $order = DB::select('select m.member_id ,m.name ,m.identity_card_number ,m.address ,p.product_name ,p.price,d.rate
+        $order = DB::select('select m.member_id ,m.name ,m.identity_card_number ,m.address ,o.shop_id ,o.state ,o.buy_state ,p.product_name ,p.price,d.rate
                              from member m ,shop s ,order o ,shop_product sp ,product p ,discount d
                              where o.shop_id = :shop_id
                              and sp.shop_id = o.shop_id

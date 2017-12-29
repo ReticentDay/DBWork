@@ -3,7 +3,7 @@
 
 	商品查詢系統
 		●商品目錄{GET}：/product
-		●商品查詢{GET}：/product/serch/{型態}/{關鍵字}
+		●商品查詢{GET}：/product/serch/{關鍵字}
 		●商品頁面{GET}：/product/{id}
 
 	購物系統

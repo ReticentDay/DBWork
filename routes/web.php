@@ -24,4 +24,15 @@ Route::get('/user/type', 'UserController@typeList');
 Route::get('/user/type/serch/{keyWord}', 'UserController@typeListSerch');
 Route::post('/user/type', 'UserController@typeUpdate');
 Route::resource('user', 'UserController');
-Route::get('/shop/list','ShopController@list');
+
+Route::post('/shop/list','ShopController@list');
+Route::post('/shop/add','ShopController@add');
+Route::post('/shop/order','ShopController@order');
+Route::post('/shop/order/over','ShopController@orderover');
+Route::get('/shop/serch/{key}', 'ShopController@search');
+Route::resource('shop', 'ShopController');
+
+Route::get('/shop/serch/{id}', 'DiscountController@search');
+Route::resource('discount', 'DiscountController');
+
+Route::get('/money', 'OtherController@money');

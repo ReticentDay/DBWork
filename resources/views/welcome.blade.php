@@ -5,7 +5,7 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>Laravel</title>
+        <title>賣場封面</title>
 
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css?family=Raleway:100,600" rel="stylesheet" type="text/css">
@@ -14,7 +14,7 @@
         <style>
             html, body {
                 background-color: #fff;
-                color: #636b6f;
+                color: #630000;
                 font-family: 'Raleway', sans-serif;
                 font-weight: 100;
                 height: 100vh;
@@ -51,8 +51,8 @@
 
             .links > a {
                 color: #636b6f;
-                padding: 0 25px;
-                font-size: 12px;
+                padding: 30px 30px;
+                font-size: 16px;
                 font-weight: 600;
                 letter-spacing: .1rem;
                 text-decoration: none;
@@ -79,15 +79,14 @@
 
             <div class="content">
                 <div class="title m-b-md">
-                    Laravel
+                    原住民服飾
                 </div>
 
                 <div class="links">
-                    <a href="https://laravel.com/docs">Documentation</a>
-                    <a href="https://laracasts.com">Laracasts</a>
-                    <a href="https://laravel-news.com">News</a>
-                    <a href="https://forge.laravel.com">Forge</a>
-                    <a href="https://github.com/laravel/laravel">GitHub</a>
+                    <a href="index.html">賣場首頁</a>
+                    <a href="https://laracasts.com">流行服飾</a>
+                    <a href="https://laravel-news.com">最新消息</a>
+                    <a href="https://github.com/laravel/laravel">關於我們</a>
                 </div>
             </div>
         </div>

@@ -62,7 +62,7 @@
                         </div>
 
                         <div class="form-group{{ $errors->has('Id_card_number') ? ' has-error' : '' }}">
-                            <label for="Id_card_number" class="col-md-4 control-label">Id_card_number</label>
+                            <label for="Id_card_number" class="col-md-4 control-label">Id card number</label>
 
                             <div class="col-md-6">
                                 <input id="Id_card_number" type="text" class="form-control" name="Id_card_number" required>
@@ -109,13 +109,13 @@
                             <div class="col-md-6">
                                 <div class="radio">
                                     <label class="radio-inline">
-                                        <input id="sex" type="radio" name="sex" value="male" checked>male  
+                                        <input id="sex" type="radio" name="sex" value="male" checked>male
                                     </label>
                                     <label class="radio-inline">
-                                        <input id="sex" type="radio" name="sex" value="female">female 
-                                    </label> 
+                                        <input id="sex" type="radio" name="sex" value="female">female
+                                    </label>
                                     <label class="radio-inline">
-                                        <input id="sex" type="radio" name="sex" value="other">other  
+                                        <input id="sex" type="radio" name="sex" value="other">other
                                     </label>
                                 </div>
 

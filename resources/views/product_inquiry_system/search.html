@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Search</title>
+<link href="../css/bootstrap.css" rel="stylesheet" type="text/css" media="all" />
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<script src="../js/jquery.min.js"></script>
+<!-- Custom Theme files -->
+<!--theme-style-->
+<link href="../css/style.css" rel="stylesheet" type="text/css" media="all" />
+<!--//theme-style-->
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="keywords" content="" />
+<script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
+<!--fonts-->
+<link href='https://fonts.googleapis.com/css?family=Exo:100,200,300,400,500,600,700,800,900' rel='stylesheet' type='text/css'>
+<!--//fonts-->
+<script type="text/javascript" src="../js/move-top.js"></script>
+<script type="text/javascript" src="../js/easing.js"></script>
+				<script type="text/javascript">
+					jQuery(document).ready(function($) {
+						$(".scroll").click(function(event){
+							event.preventDefault();
+							$('html,body').animate({scrollTop:$(this.hash).offset().top},1000);
+						});
+					});
+				</script>
+<!--slider-script-->
+		<script src="../js/responsiveslides.min.js"></script>
+			<script>
+				$(function () {
+				  $("#slider1").responsiveSlides({
+					auto: true,
+					speed: 500,
+					namespace: "callbacks",
+					pager: true,
+				  });
+				});
+			</script>
+<!--//slider-script-->
+<script>$(document).ready(function(c) {
+	$('.alert-close').on('click', function(c){
+		$('.message').fadeOut('slow', function(c){
+	  		$('.message').remove();
+		});
+	});
+});
+</script>
+<script>$(document).ready(function(c) {
+	$('.alert-close1').on('click', function(c){
+		$('.message1').fadeOut('slow', function(c){
+	  		$('.message1').remove();
+		});
+	});
+});
+</script>
+</head>
+<body>
+  <!--header-->
+	<div class="header">
+		<div class="header-top">
+			<div class="container">
+			<div class="header-top-in">
+				<div class="logo">
+					<a href="index.html"><img src="../images/logo.png" alt=" " ></a>
+				</div>
+				<div class="header-in">
+					<ul class="icon1 sub-icon1">
+							<li  ><a href="{{ route('login') }}">Login</a> </li>
+							<li  ><a href="{{ route('register') }}">Register</a></li>
+						</ul>
+				</div>
+				<div class="clearfix"> </div>
+			</div>
+			</div>
+		</div>
+		<div class="header-bottom">
+		<div class="container">
+			<div class="h_menu4">
+				<a class="toggleMenu" href="#">Menu</a>
+				<ul class="nav">
+					<li class="active"><a href="index.html"><i> </i>首頁</a></li>
+					<li ><a href="#" >買衣服</a>
+						<ul class="drop">
+							<li><a href="products.html">頭巾</a></li>
+							<li><a href="products.html">衣服</a></li>
+							<li><a href="products.html">褲子</a></li>
+							<li><a href="products.html">配件</a></li>
+						</ul>
+						</li>
+						<li><a href="news.html" >最新消息</a></li>
+						<li><a href="contact.html" >聯絡我們</a></li>
+							<div class="container">
+							<div class="header-bottom-on">
+							<div class="header-can">
+									<div class="search">
+										<form>
+											<input type="text" value="Search" onFocus="this.value = '';" onBlur="if (this.value == '') {this.value = '';}" >
+											<input type="submit" value="">
+										</form>
+									</div>
+
+									<div class="clearfix"> </div>
+							</div>
+							<div class="clearfix"></div>
+						</div>
+						</div>
+				</ul>
+
+				<script type="text/javascript" src="../js/nav.js"></script>
+			</div>
+
+		</div>
+		</div>
+	</div>
+
+			<div class="container">
+					<div class="clearfix"></div>
+		    	<div class="row">
+					 		 <div class="col-md-8 col-md-offset-2">
+				   				 <div class="panel panel-default">
+		          			  <div class="panel-heading">Search</div>
+
+		            		  <div class="panel-body">
+		            			    <form class="form-horizontal" method="POST" action="{{ route('login') }}">
+		              			      <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
+		                			        <label for="email" class="col-md-4 control-label">Search Product</label>
+		                  			      <div class="col-md-6">
+		                    			        <input id="product_name" type="text" class="form-control" name="product_name" value="" required autofocus>
+		                     		   		</div>
+		                 		 			</div>
+															<div class="clearfix"></div>
+		                  				<div class="form-group">
+		                      			  <div class="col-md-8 col-md-offset-4">
+	                      					    <button type="submit" class="btn btn-primary">
+		                  	        		      Search
+		                	              	</button>
+																			<div class="clearfix"></div>
+		              	            	</div>
+		            	          	</div>
+			        	          </form>
+			      	        </div>
+
+
+											<div class=" top-products">
+												<div class="col-md-3 md-col">
+													<div class="col-md">
+														<a href="single.html" class="compare-in"><img  src="../images/pic.jpg" alt="" /></a>
+														<div class="top-content">
+															<h5><a href="single.html">Popular belief</a></h5>
+															<div class="white">
+																<a href="single.html" class="hvr-shutter-in-vertical hvr-shutter-in-vertical2">查看</a>
+																<p class="dollar"><span class="in-dollar">$</span><span>2</span><span>0</span></p>
+																<div class="clearfix"></div>
+															</div>
+														</div>
+													</div>
+												</div>
+												<div class="col-md-3 md-col">
+													<div class="col-md">
+														<a href="single.html" class="compare-in"><img  src="../images/pic1.jpg" alt="" /></a>
+														<div class="top-content">
+															<h5><a href="single.html" >Simply random</a></h5>
+															<div class="white">
+																<a href="single.html" class="hvr-shutter-in-vertical hvr-shutter-in-vertical2">查看</a>
+																<p class="dollar"><span class="in-dollar">$</span><span>6</span><span>0</span></p>
+																<div class="clearfix"></div>
+															</div>
+														</div>
+													</div>
+												</div>
+												<div class="col-md-3 md-col">
+													<div class="col-md">
+														<a href="single.html" class="compare-in"><img  src="../images/pic2.jpg" alt="" /></a>
+														<div class="top-content">
+															<h5> <a href="single.html">Classical Latin</a></h5>
+															<div class="white">
+																<a href="single.html" class="hvr-shutter-in-vertical hvr-shutter-in-vertical2">查看</a>
+																<p class="dollar"><span class="in-dollar">$</span><span>1</span><span>5</span></p>
+																<div class="clearfix"></div>
+															</div>
+														</div>
+													</div>
+												</div>
+												<div class="col-md-3 md-col">
+													<div class="col-md">
+														<a href="single.html" class="compare-in"><img  src="../images/pic3.jpg" alt="" /></a>
+														<div class="top-content">
+															<h5><a href="single.html">Standard chunk</a></h5>
+															<div class="white">
+																<a href="single.html" class="hvr-shutter-in-vertical hvr-shutter-in-vertical2">查看</a>
+																<p class="dollar"><span class="in-dollar">$</span><span>4</span><span>0</span></p>
+																<div class="clearfix"></div>
+															</div>
+														</div>
+													</div>
+												</div>
+											<div class="clearfix"></div>
+											</div>
+	    	  	      </div>
+	      		  </div>
+	  		  </div>
+			</div>
+
+		<!---->
+		<div class="footer">
+			<p class="footer-class">Copyright &copy; 2017.北科資工資料庫Project</p>
+			<script type="text/javascript">
+						$(document).ready(function() {
+							/*
+							var defaults = {
+					  			containerID: 'toTop', // fading element id
+								containerHoverID: 'toTopHover', // fading element hover id
+								scrollSpeed: 1200,
+								easingType: 'linear'
+					 		};
+							*/
+
+							$().UItoTop({ easingType: 'easeOutQuart' });
+
+						});
+					</script>
+				<a href="#" id="toTop" style="display: block;"> <span id="toTopHover" style="opacity: 1;"> </span></a>
+
+		</div>
+</body>
+</html>

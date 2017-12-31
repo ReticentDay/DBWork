@@ -20,9 +20,9 @@ class ProductController extends Controller
     public function index()
     {
         //商品目錄{GET}：/product
-        $productIndex = DB::select('select product_name,photo,price 
-                                    form product order by product_id asc');
-        return view('ProductInquirySystem/product',['productIndex' =>$productIndex ]);
+        $productIndex = DB::select('select product_name,photo,price,product_id
+                                    from product order by product_id asc');
+        return view('ProductInquirySystem/index',['productIndex' =>$productIndex ]);
 
     }
 
@@ -48,15 +48,15 @@ class ProductController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    public function search (Request $request,$keyword){
+    public function search (Request $request){
       //商品查詢{GET}：/product/serch/{關鍵字}
-
-      $keyword = '%'.$keyword.'%';
-      $show_search = DB::select('select product_name,photo,price 
-                                form product 
-                                where product_name like ?',
-                                [$keyword]);
-      return view('ProductInquirySystem/product/search',['show_search'->$show_search]);
+        
+        $keyword = '"%'.$request->input('key').'%"';
+        $show_search = DB::select('select product_name,photo,price,product_id
+                                    from product 
+                                    where product_name like '.$keyword);
+        //dd($show_search);
+        return view('ProductInquirySystem/index',['productIndex'=>$show_search]);
     }
 
     public function store(Request $request)
@@ -67,17 +67,17 @@ class ProductController extends Controller
         if(Auth::user()->user_type == 'customer' )
             return "you can't do it";
         DB::insert( 'insert into product 
-                    (Product_name, Date, Price, State, Click_count, Photo, Info, Stock) 
-                    values (:Product_name, :Date, :Price, :State, :Click_count, :Photo, :Info, :Stock)'
+                    (product_name, date, price, state, click_count, photo, info, stock) 
+                    values (:product_name, :date, :price, :state, :click_count, :photo, :info, :stock)'
                     ,[
-                        'Product_name' => $request->Product_name,
-                        'Date' => date("Y/m/d"),
-                        'Price' => $request->Price,
-                        'State' => $request->State,
-                        'Click_count' => 0,
-                        'Photo' => $request->file('photo'),
-                        'Info' => $request->Info,
-                        'Stock' => $request->Stock
+                        'product_name' => $request->Product_name,
+                        'date' => date("Y/m/d"),
+                        'price' => $request->price,
+                        'state' => $request->state,
+                        'click_count' => 0,
+                        'photo' => $request->photo,
+                        'info' => $request->info,
+                        'stock' => $request->stock
                     ]);
         return redirect()->route('product.create');
     }
@@ -92,11 +92,12 @@ class ProductController extends Controller
     {
         //商品頁面{GET}：/product/{id}
 
-        $product_info = DB::select( 'select product_id,price,photo,product_name,info,stock 
+        $product_info = DB::select( 'select product_id,price,photo,product_name,info,state,stock 
                                     from product 
                                     where product_id = :id'
                                     ,['id'=>$id]);
-        return view ('ProductInquirySystem/show',['product_info'->$product_info]);
+        //dd($product_info);
+        return view('ProductInquirySystem/show',['product_info'=>$product_info,'user_type'=>Auth::user()->user_type]);
     }
 
     /**
@@ -116,7 +117,7 @@ class ProductController extends Controller
                                     from product 
                                     where product_id = :id'
                                     ,['id'=>$id]);
-        return view ('GoodsShelvesSystem/fix',['product_info'->$product_info]);
+        return view ('GoodsShelvesSystem/fix',['product_info'=>$product_info]);
     }
 
     /**
@@ -133,18 +134,18 @@ class ProductController extends Controller
             return "you can't do it";
         if(Auth::user()->user_type == 'customer' )
             return "you can't do it";
-        $affected = DB::update('update product set 
+        $affected = DB::update('update product 
                                 set product_name = :product_name, date = :date, price = :price
                                 , state = :state, photo = :photo, info = :info, stock = :stock
                                 where product_id = :id'
                                 ,[
                                     'product_name' => $request->Product_name,
                                     'date' => date("Y/m/d"),
-                                    'price' => $request->Price,
-                                    'state' => $request->State,
-                                    'photo' => $request->file('photo'),
-                                    'info' => $request->Info,
-                                    'stock' => $request->Stock,
+                                    'price' => $request->price,
+                                    'state' => $request->state,
+                                    'photo' => $request->photo,
+                                    'info' => $request->info,
+                                    'stock' => $request->stock,
                                     'id' => $id
                                 ]);
         return redirect()->route('product.create');

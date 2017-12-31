@@ -29,41 +29,45 @@ class ShopController extends Controller
         $member_id = Auth::user()->id;
         $product_id = $request->input('product_id');
         $quantity = $request->input('quantity');
-        $shop_id = DB::select('select max s.shop_id
-                               from shop s,shopping_cart sc
+        $shop_id = DB::select('select max(s.shop_id) shop_id
+                               from shop s,shapping_car sc
                                where s.member_id = :id
                                and s.shop_id = sc.shop_id
                                and sc.state = "NO"',['id' => $member_id]);
-        if($shop_id == NULL)
+        //dd($shop_id);
+        if($shop_id[0]->shop_id == NULL)
         {
             DB::insert('insert into shop(member_id)
                         values(:member_id)',['member_id'=>$member_id]);
-            $shop_id = DB::select('select max s.shop_id
+            $shop_id = DB::select('select max(s.shop_id) shop_id
                                    from shop s
                                    where s.member_id = :id',['id' => $member_id]);
-            DB::insert('insert into shopping_cart(shop_id,state)
+            DB::insert('insert into shapping_car(shop_id,state)
                         values(:shop_id,"NO")',['shop_id'=>$shop_id[0]->shop_id]);
         }
         DB::insert('insert into shop_product(shop_id,product_id,state,quantity)
                     values(:shopid,:productid,:state,:quantity)',
-                    ['shopid'=>$shop_id[0]->shop_id,'productid'=>$product_id,'state' =>'shippig','quantity'=>$quantity]);
-        return redirect()->route('product.show',[id => $product_id]);
+                    ['shopid'=>$shop_id[0]->shop_id,'productid'=>$product_id
+                    ,'state' =>'shippig','quantity'=>$quantity]);
+        return redirect()->route('product.show',['id' => $product_id]);
     }
 
     public function list(Request $request)
     {
-        //商品購物車查詢{POST}：/shop/list
+        //商品購物車查詢{get}：/shop/list
         if(!Auth::check())
             return "you can't do it";
         $member_id = Auth::user()->id;
-        $product = DB::select('select p.Product_name,p.Price
-                              from shop s,shopping_cart sc,shop_product sp,product p
+        $productList = DB::select('select p.product_name product_name,p.price price,sp.quantity quantity
+                              from shop s,shapping_car sc,shop_product sp,product p
                               where s.member_id = :id
                               and s.shop_id = sc.shop_id
                               and sc.state = "NO"
                               and sp.shop_id = sc.shop_id
                               and sp.product_id = p.product_id',['id' => $member_id]);
-        return view('ShoppingSystem/list',['product' => $product]);
+        $total = 0;
+        foreach($productList as $product)$total += $product->price * $product->quantity;
+        return view('ShoppingSystem/list',['productList' => $productList,'total' => $total]);
     }
 
     public function order(Request $request)
@@ -72,14 +76,16 @@ class ShopController extends Controller
         if(!Auth::check())
             return "you can't do it";
         $member_id = Auth::user()->id;
-        $product = DB::select(  'select p.product_name,p.price,d.rate
-                                from product p,shop s,discount d,shopping_cart sc,shop_product sp
-                                where s.member_id = :member_id
-                                and sc.state = "NO"
-                                and s.shop_id = sp.shop_id
-                                and sp.shop_id = p.product_id',
-                                ['member_id' => $member_id]);
-        return view('ShoppingSystem/order',['product' => $product]);
+        $productList = DB::select('select p.product_name product_name,p.price price,sp.quantity quantity
+                              from shop s,shapping_car sc,shop_product sp,product p
+                              where s.member_id = :id
+                              and s.shop_id = sc.shop_id
+                              and sc.state = "NO"
+                              and sp.shop_id = sc.shop_id
+                              and sp.product_id = p.product_id',['id' => $member_id]);
+        $total = 0;
+        foreach($productList as $product)$total += $product->price * $product->quantity;
+        return view('ShoppingSystem/order',['productList' => $productList,'total' => $total]);
     }
 
     public function orderover(Request $request)
@@ -90,16 +96,16 @@ class ShopController extends Controller
         date_default_timezone_set('Asia/Taipei');
         $datetime= date("Y/m/d H:i:s");
         $member_id = Auth::user()->id;
-        $shop_id = DB::select('select max s.shop_id
-                               from shop s,shopping_cart sc
-                               where s.member_id = :id
-                               and s.shop_id = sc.shop_id
-        and sc.state = "NO"',['id' => $member_id]);
-        DB::update('update shopping_cart
+        $shop_id = DB::select(  'select max(s.shop_id) shop_id
+                                from shop s,shapping_car sc
+                                where s.member_id = :id
+                                and s.shop_id = sc.shop_id
+                                and sc.state = "NO"',['id' => $member_id]);
+        DB::update('update shapping_car
                     set state = "YES"
-                    where shop_id = :shop_id',['shop_id'=>$shop_id[0]->$shop_id]);
-        DB::insert('insert into order(shop_id,state,buy_date)
-                    values(:shop_id,"Not delivered",:date)',['shop_id'=>$shop_id[0]->$shop_id,'date'=>$datetime]);
+                    where shop_id = :shop_id',['shop_id'=>$shop_id[0]->shop_id]);
+        DB::insert('insert into `order`(shop_id,state,buy_date)
+                    values(:shop_id,"Not delivered",:date)',['shop_id'=>$shop_id[0]->shop_id,'date'=>$datetime]);
         return redirect()->route('product.index');
     }
     /**
@@ -131,13 +137,28 @@ class ShopController extends Controller
         if(Auth::user()->user_type == 'customer' )
             return "you can't do it";
         $key = "%".$key."%";
-        $order = DB::select('select m.member_id ,m.name ,m.identity_card_number ,m.address ,o.shop_id ,o.state ,o.buy_state ,p.product_name ,p.price,d.rate
-                             from member m ,shop s ,order o ,shop_product sp ,product p ,discount d
-                             where o.shop_id = sp.shop_id
-                             and sp.product_id = p.product_id
-                             and sp.product_id = d.product_id
-                             and (s.shop_id like ?) or (s.state like ?) or (p.product_id like ?)',[$key,$key,$key]);
-        return view('OrderManagementSystem/search',['order' => $order]);
+        $order = DB::select('select m.id id ,m.name name ,m.identity_card_number identity_card_number
+                            ,m.address address ,o.shop_id shop_id ,o.state state ,o.buy_date buy_date
+                            from users m ,shop s ,`order` o
+                            where m.id = s.member_id
+                            and s.shop_id = o.shop_id
+                            and (s.shop_id like "?") or (s.state like "?")',[$key,$key]);
+        return view('OrderManagementSystem/search',['orderList' => $order]);
+    }
+
+    public function searchs()
+    {
+        //訂單搜尋系統{GET}：/shop/serchs
+        if(!Auth::check())
+            return "you can't do it";
+        if(Auth::user()->user_type == 'customer' )
+            return "you can't do it";
+        $order = DB::select('select m.id id ,m.name name ,m.identity_card_number identity_card_number
+                            ,m.address address ,o.shop_id shop_id ,o.state state ,o.buy_date buy_date
+                            from users m ,shop s ,`order` o
+                            where m.id = s.member_id
+                            and s.shop_id = o.shop_id');
+        return view('OrderManagementSystem/search',['orderList' => $order]);
     }
 
     /**
@@ -153,15 +174,19 @@ class ShopController extends Controller
             return "you can't do it";
         if(Auth::user()->user_type == 'customer' )
             return "you can't do it";
-        $order = DB::select('select m.member_id ,m.name ,m.identity_card_number ,m.address ,o.shop_id ,o.state ,o.buy_state ,p.product_name ,p.price,d.rate
-                             from member m ,shop s ,order o ,shop_product sp ,product p ,discount d
-                             where o.shop_id = :shop_id
-                             and sp.shop_id = o.shop_id
-                             and sp.product_id = p.product_id
-                             and sp.product_id = d.product_id
-                             and s.shop_id = o.shop_id
-                             and m.member_id = s.member_id',['shop_id'=>$id]);
-        return view('OrderManagementSystem/check',['order' => $order]);
+        $orderList = DB::select('select m.id id,m.name name,m.identity_card_number identity_card_number,m.address address
+                            ,o.shop_id shop_id,o.state state,o.buy_date buy_date
+                            ,p.product_name product_name,p.price price, sp.quantity quantity
+                            from users m ,shop s ,`order` o ,shop_product sp ,product p
+                            where o.shop_id = :shop_id
+                            and sp.shop_id = o.shop_id
+                            and sp.product_id = p.product_id
+                            and s.shop_id = o.shop_id
+                            and m.id = s.member_id',['shop_id'=>$id]);
+        $total = 0;
+        foreach($orderList as $product)$total += $product->price * $product->quantity;
+        
+        return view('OrderManagementSystem/check',['orderList' => $orderList,'total'=>$total]);
     }
 
     /**
@@ -177,10 +202,21 @@ class ShopController extends Controller
             return "you can't do it";
         if(Auth::user()->user_type == 'customer' )
             return "you can't do it";
+        $orderList = DB::select('select m.id id,m.name name,m.identity_card_number identity_card_number,m.address address
+                        ,o.shop_id shop_id,o.state state,o.buy_date buy_date
+                        ,p.product_name product_name,p.price price, sp.quantity quantity
+                        from users m ,shop s ,`order` o ,shop_product sp ,product p
+                        where o.shop_id = :shop_id
+                        and sp.shop_id = o.shop_id
+                        and sp.product_id = p.product_id
+                        and s.shop_id = o.shop_id
+                        and m.id = s.member_id',['shop_id'=>$id]);
+        $total = 0;
+        foreach($orderList as $product)$total += $product->price * $product->quantity;
         $order = DB::select('select o.state ,o.buy_date
-                             from order o
+                             from `order` o
                              where o.shop_id = :shop_id',['shop_id'=>$id]);
-        return view('OrderManagementSystem/fix',['order' => $order]);
+        return view('OrderManagementSystem/fix',['order' => $order,'orderList' => $orderList,'total'=>$total]);
     }
 
     /**
@@ -197,10 +233,10 @@ class ShopController extends Controller
             return "you can't do it";
         if(Auth::user()->user_type == 'customer' )
             return "you can't do it";
-        DB::update('update order
+        DB::update('update `order`
                     set state = :state
-                    where shop_id = :shop_id',['state' => $request[0]->$state,'shop_id'=>$id]);
-        return redirect()->route('show.show',['id' => $id]);
+                    where shop_id = :shop_id',['state' => $request->state,'shop_id'=>$id]);
+        return redirect()->route('shop.show',['id' => $id]);
     }
 
     /**

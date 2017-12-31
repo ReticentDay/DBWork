@@ -77,12 +77,35 @@
 			<div class="container">
 				<div class="header-top-in">
 					<div class="logo">
-						<a href="index.html"><img src="../images/logo.png" alt=" " ></a>
+						<a href="{{ url('/') }}">
+							<img src="/wm.jpg" alt="Smiley face" height="30" width="30" style="display:inline;">AATS</a>
 					</div>
 					<div class="header-in">
 						<ul class="icon1 sub-icon1">
-							<li><a href="{{ route('login') }}">Login</a> </li>
-							<li><a href="{{ route('register') }}">Register</a></li>
+							@guest
+							<li>
+								<a href="{{ route('login') }}">Login</a>
+							</li>
+							<li>
+								<a href="{{ route('register') }}">Register</a>
+							</li>
+							@else
+							<li class="dropdown">
+								<a href="/user/{{ Auth::user()->id }}" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"
+								 aria-haspopup="true">
+									{{ Auth::user()->name }}
+								</a>
+							</li>
+							<li>
+								<a href="{{ route('logout') }}" onclick="event.preventDefault();document.getElementById('logout-form').submit();">
+									Logout
+								</a>
+	
+								<form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+									{{ csrf_field() }}
+								</form>
+							</li>
+							@endguest
 						</ul>
 					</div>
 					<div class="clearfix"> </div>
@@ -94,17 +117,33 @@
 				<div class="h_menu4">
 					<a class="toggleMenu" href="#">Menu</a>
 					<ul class="nav">
-						<li class="active"><a href="index.html"><i> </i>首頁</a></li>
-						<li><a href="#">買衣服</a>
+						<li>
+							<a href="{{ url('/') }}">
+								<i> </i>首頁</a>
+						</li>
+						<li>
+							<a href="/product">商品瀏覽</a>
+						</li>
+						<li>
+							<a href="/shop/list">購物車</a>
+						</li>
+						<li>
+							<a href="/product/create">管理系統</a>
 							<ul class="drop">
-								<li><a href="products.html">頭巾</a></li>
-								<li><a href="products.html">衣服</a></li>
-								<li><a href="products.html">褲子</a></li>
-								<li><a href="products.html">配件</a></li>
+								<li>
+									<a href="/discount/create">折扣管理系統</a>
+								</li>
+								<li>
+									<a href="/shop/serch">訂單管理系統</a>
+								</li>
+								<li>
+									<a href="/user/type">會員管理系統</a>
+								</li>
+								<li>
+									<a href="/product/create">財務報表系統</a>
+								</li>
 							</ul>
 						</li>
-						<li><a href="news.html">最新消息</a></li>
-						<li><a href="contact.html">聯絡我們</a></li>
 						<div class="container">
 							<div class="header-bottom-on">
 								<div class="header-can">
@@ -114,17 +153,17 @@
 											<input type="submit" value="">
 										</form>
 									</div>
-
+	
 									<div class="clearfix"> </div>
 								</div>
 								<div class="clearfix"></div>
 							</div>
 						</div>
 					</ul>
-
+	
 					<script type="text/javascript" src="../js/nav.js"></script>
 				</div>
-
+	
 			</div>
 		</div>
 	</div>
@@ -133,34 +172,39 @@
 		<div class="contact">
 			<h2 class=" contact-in">DISCOUNT SETTING</h2>
 			<div class="col-md-6 contact-top">
-				<form>
+				<form action="/discount" method="post">
+					<input type="hidden" name="_token" value="{{ csrf_token() }}">
 					<div>
-						<span>規則說明 </span>
-						<input type="text" value="">
+						<span>選擇商品 </span>
+						<select name="product_id">
+							@foreach($productList as $product)
+								<option value="{{ $product->product_id }}">{{ $product->product_id }} - {{ $product->product_name }}</option>
+							@endforeach
+						</select>
 					</div>
 					<div>
 						<span>開始時間 </span>
-						<input type="date" value="">
+						<input type="date" name="start_date" value="">
 					</div>
 					<div>
 						<span>結束時間 </span>
-						<input type="date" value="">
+						<input type="date" name="end_date" value="">
 					</div>
 					<div>
 						<span>折扣%數</span>
-						<select name="YourLocation">
-　						<option >10% off</option>
-　						<option >20% off</option>
-　						<option >30% off</option>
-						 <option >40% off</option>
-						 <option >50% off</option>
-						 <option >60% off</option>
-						 <option >70% off</option>
-						 <option >80% off</option>
-						 <option >90% off</option>
+						<select name="rate">
+							<option value="0.1">10% off</option>
+							<option value="0.2">20% off</option>
+							<option value="0.3">30% off</option>
+							<option value="0.4">40% off</option>
+							<option value="0.5">50% off</option>
+							<option value="0.6">60% off</option>
+							<option value="0.7">70% off</option>
+							<option value="0.8">80% off</option>
+							<option value="0.9">90% off</option>
 						</select>
-					</form>
-				</div>
+					</div>
+				</form>
 				<input type="submit" value="確認">
 			</div>
 			<div class="clearfix"> </div>

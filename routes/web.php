@@ -17,24 +17,28 @@ Route::get('/', function () {
 
 Auth::routes();
 
+Route::get('/nothing',function(){
+    return 'nothing in here';
+});
+
 Route::get('/home', 'HomeController@index')->name('home');
 
-
+Route::post('/user/type', 'UserController@typeUpdate');
 Route::get('/user/type', 'UserController@typeList');
 Route::get('/user/type/serch/{keyWord}', 'UserController@typeListSerch');
-Route::post('/user/type', 'UserController@typeUpdate');
 Route::resource('user', 'UserController');
 
-Route::post('/shop/list','ShopController@list');
+Route::get('/shop/list','ShopController@list');
 Route::post('/shop/add','ShopController@add');
-Route::post('/shop/order','ShopController@order');
+Route::get('/shop/order','ShopController@order');
 Route::post('/shop/order/over','ShopController@orderover');
 Route::get('/shop/serch/{key}', 'ShopController@search');
-Route::resource('shop', 'ShopController');
-
 Route::get('/shop/serch/{id}', 'DiscountController@search');
+Route::get('/shop/serch', 'ShopController@searchs');
+Route::resource('shop', 'ShopController');
 Route::resource('discount', 'DiscountController');
 
+Route::get('/product/serch/', 'ProductController@search');
 Route::resource('product', 'ProductController');
 
 Route::get('/money', 'OtherController@money');

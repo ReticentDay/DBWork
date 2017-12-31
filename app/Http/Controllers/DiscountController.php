@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use DB;
 use Gate;
 use App\User;
 use App\Post;
@@ -63,7 +64,7 @@ class DiscountController extends Controller
         if(Auth::user()->user_type == 'customer' )
             return "you can't do it";
         $discount = DB::select( 'select d.product_id,p.product_name,p.price,d.rate,d.start_date,d.end_date
-                                    from discount d,product p where d.product_id = p.product_id AND d.product_id = '.$id);
+                                    from discount d,product p where d.product_id = p.product_id AND d.product_id like %'.$id.'%');
         return view('DiscountManagementSystem/search',['discountList' => $discount]);
     }
 

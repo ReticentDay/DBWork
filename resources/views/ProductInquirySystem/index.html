@@ -57,67 +57,98 @@
 </script>
 </head>
 <body>
-  <!--header-->
+	<!--header-->
 	<div class="header">
 		<div class="header-top">
 			<div class="container">
-			<div class="header-top-in">
-				<div class="logo">
-					<a href="index.html"><img src="../images/logo.png" alt=" " ></a>
-				</div>
-				<div class="header-in">
-					<ul class="icon1 sub-icon1">
-							<li  ><a href="{{ route('login') }}">Login</a> </li>
-							<li  ><a href="{{ route('register') }}">Register</a></li>
+				<div class="header-top-in">
+					<div class="logo">
+						<a href="{{ url('/') }}">
+							<img src="/wm.jpg" alt="Smiley face" height="30" width="30" style="display:inline;">AATS</a>
+					</div>
+					<div class="header-in">
+						<ul class="icon1 sub-icon1">
+							@guest
+							<li>
+								<a href="{{ route('login') }}">Login</a>
+							</li>
+							<li>
+								<a href="{{ route('register') }}">Register</a>
+							</li>
+							@else
+							<li class="dropdown">
+								<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true">
+									{{ Auth::user()->name }}
+									<span class="caret"></span>
+								</a>
+	
+								<ul class="dropdown-menu">
+									<li>
+										<a href="{{ route('logout') }}" onclick="event.preventDefault();
+									                                                     document.getElementById('logout-form').submit();">
+											Logout
+										</a>
+	
+										<form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+											{{ csrf_field() }}
+										</form>
+									</li>
+								</ul>
+							</li>
+							@endguest
 						</ul>
+					</div>
+					<div class="clearfix"> </div>
 				</div>
-				<div class="clearfix"> </div>
-			</div>
 			</div>
 		</div>
 		<div class="header-bottom">
-		<div class="container">
-			<div class="h_menu4">
-				<a class="toggleMenu" href="#">Menu</a>
-				<ul class="nav">
-					<li class="active"><a href="index.html"><i> </i>首頁</a></li>
-					<li ><a href="#" >買衣服</a>
-						<ul class="drop">
-							<li><a href="products.html">頭巾</a></li>
-							<li><a href="products.html">衣服</a></li>
-							<li><a href="products.html">褲子</a></li>
-							<li><a href="products.html">配件</a></li>
-						</ul>
+			<div class="container">
+				<div class="h_menu4">
+					<a class="toggleMenu" href="#">Menu</a>
+					<ul class="nav">
+						<li class="active">
+							<a href="index.html">
+								<i> </i>首頁</a>
 						</li>
-						<li><a href="news.html" >最新消息</a></li>
-						<li><a href="contact.html" >聯絡我們</a></li>
-							<div class="container">
+						<li>
+							<a href="#">買衣服</a>
+						</li>
+						<li>
+							<a href="news.html">最新消息</a>
+						</li>
+						<li>
+							<a href="contact.html">聯絡我們</a>
+						</li>
+						<div class="container">
 							<div class="header-bottom-on">
-							<div class="header-can">
+								<div class="header-can">
 									<div class="search">
 										<form>
-											<input type="text" value="Search" onFocus="this.value = '';" onBlur="if (this.value == '') {this.value = '';}" >
+											<input type="text" value="Search" onFocus="this.value = '';" onBlur="if (this.value == '') {this.value = '';}">
 											<input type="submit" value="">
 										</form>
 									</div>
-
+	
 									<div class="clearfix"> </div>
+								</div>
+								<div class="clearfix"></div>
 							</div>
-							<div class="clearfix"></div>
 						</div>
-						</div>
-				</ul>
-
-				<script type="text/javascript" src="../js/nav.js"></script>
+					</ul>
+	
+					<script type="text/javascript" src="../js/nav.js"></script>
+				</div>
+	
 			</div>
-
-		</div>
 		</div>
 	</div>
+	<!---->
 			<div class="container">
 				<div class="products">
 						<h2 class=" products-in">PRODUCTS</h2>
-						<div class=" top-products">
+						<div class="top-products">
+							
 							<div class="col-md-3 md-col">
 								<div class="col-md">
 									<a href="single.html" class="compare-in"><img  src="../images/pic.jpg" alt="" /></a>
@@ -170,9 +201,7 @@
 									</div>
 								</div>
 							</div>
-						<div class="clearfix"></div>
-						</div>
-						<div class=" top-products">
+							
 							<div class="col-md-3 md-col">
 								<div class="col-md">
 									<a href="single.html" class="compare-in"><img  src="../images/pic4.jpg" alt="" /></a>
@@ -225,9 +254,7 @@
 									</div>
 								</div>
 							</div>
-						<div class="clearfix"></div>
-						</div>
-						<div class="top-products">
+							
 							<div class="col-md-3 md-col">
 								<div class="col-md">
 									<a href="single.html" class="compare-in" ><img  src="../images/pic8.jpg" alt="" /></a>
@@ -280,7 +307,7 @@
 									</div>
 								</div>
 							</div>
-						<div class="clearfix"></div>
+							<div class="clearfix"></div>
 						</div>
 				</div>
 			</div>

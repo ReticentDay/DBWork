@@ -79,15 +79,15 @@
 
             <div class="content">
                 <div class="title m-b-md">
-                    Laravel
+                    AATS
                 </div>
 
                 <div class="links">
-                    <a href="https://laravel.com/docs">Documentation</a>
-                    <a href="https://laracasts.com">Laracasts</a>
-                    <a href="https://laravel-news.com">News</a>
-                    <a href="https://forge.laravel.com">Forge</a>
-                    <a href="https://github.com/laravel/laravel">GitHub</a>
+                    <a href="/product">商品瀏覽</a>
+                    <a href="/shop/list">購物車</a>
+                    <a href="/product/create">管理系統</a>
+                    <a href="/nothing">Nothing</a>
+                    <a href="https://github.com/ReticentDay/DBWork">GitHub</a>
                 </div>
             </div>
         </div>

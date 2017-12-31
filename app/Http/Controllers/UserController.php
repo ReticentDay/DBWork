@@ -106,13 +106,12 @@ class UserController extends Controller
             return "You can't see this";
         }
         $affected = DB::update('update users 
-                                set address = :address, birthday = :birthday, phont = :phont, sex = :sex 
+                                set address = :address, birthday = :birthday, phont = :phont 
                                 where id = :id', 
-                               ['address' => $request->input['address'] , 
-                                'birthday' => $request->input['birthday'] ,
-                                'sex' => $request->input['sex'] ,
+                               ['address' => $request->address , 
+                                'birthday' => $request->birthday ,
                                 'id' => $id ,
-                                'phont' => $request->input['phone']]);
+                                'phont' => $request->phont]);
         $userData = DB::select( 'select name,email,Identity_card_number,address,birthday,phont,sex,user_type,created_at
                                 from users where id = :id', ['id' => $id]);
         return view('MemberInformationSystem/show',['users' => $userData]);
@@ -143,7 +142,7 @@ class UserController extends Controller
         $userCheck = DB::select('select count(staff_id) count from staff where staff_id = :id'
                                 , ['id' => Auth::user()->id]);
         //dd($userCheck);
-        if(Auth::user()->user_type != "staff" && $userCheck[0]->count > 0)
+        if(Auth::user()->user_type != "staff" || $userCheck[0]->count <= 0)
         {
             return "You can't see this";
         }
@@ -158,7 +157,7 @@ class UserController extends Controller
         $userCheck = DB::select('select count(staff_id) from staff where staff_id = :id'
                                 , ['id' => Auth::user()->id]);
         //dd($userCheck);
-        if(Auth::user()->user_type != "staff" && $userCheck[0]->count(staff_id) > 0)
+        if(Auth::user()->user_type != "staff" || $userCheck[0]->count(staff_id) <= 0)
         {
             return "You can't see this";
         }
@@ -173,14 +172,20 @@ class UserController extends Controller
     public function typeUpdate(Request $request)
     {
         //會員狀態更新{POST}：/user/type
-        $userCheck = DB::select('select count(staff_id) from staff where staff_id = :id'
+        $userCheck = DB::select('select count(staff_id) count from staff where staff_id = :id'
                                 , ['id' => Auth::user()->id]);
         //dd($userCheck);
-        if(Auth::user()->user_type != "staff" && $userCheck[0]->count(staff_id) > 0)
+        if(Auth::user()->user_type != "staff" || $userCheck[0]->count <= 0)
         {
             return "You can't see this";
         }
         //dd($request);
+        $deleted = DB::delete('delete from staff where staff_id = :id',['id' => $request->id]);
+        $deleted = DB::delete('delete from manager where manager_id = :id',['id' => $request->id]);
+        if($request->user_type == 'manager')
+            DB::insert('insert into manager (manager_id, account) values (?, ?)', [$request->id, 500]);
+        if($request->user_type == 'staff')
+            DB::insert('insert into staff (staff_id, account) values (?, ?)', [$request->id, 1000]);
         $affected = DB::update("update users 
                                 set user_type = '".$request->user_type."'
                                 where id = ".$request->id);

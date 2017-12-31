@@ -35,4 +35,6 @@ Route::resource('shop', 'ShopController');
 Route::get('/shop/serch/{id}', 'DiscountController@search');
 Route::resource('discount', 'DiscountController');
 
+Route::resource('product', 'ProductController');
+
 Route::get('/money', 'OtherController@money');

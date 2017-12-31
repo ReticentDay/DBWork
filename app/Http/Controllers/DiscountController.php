@@ -74,7 +74,7 @@ class DiscountController extends Controller
             return "you can't do it";
         if(Auth::user()->user_type == 'customer' )
             return "you can't do it";
-        $affected = DB::update('update discount set 
+        $affected = DB::update('update discount 
                                 set rate = :rate, start_date = :start_date, end_date = :end_date
                                 where name = :id',
                                 [   'rate' => $request->rate,

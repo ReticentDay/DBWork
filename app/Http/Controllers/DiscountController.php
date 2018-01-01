@@ -42,7 +42,7 @@ class DiscountController extends Controller
                     'end_date' => $request->end_date]);
         $discountList = DB::select( 'select d.product_id,p.product_name,p.price,d.rate,d.start_date,d.end_date
                                     from discount d,product p where d.product_id = p.product_id');
-        return view('DiscountManagementSystem/index',['discountList' => $discountList]);
+        return redirect()->route('discount.create');
     }
 
     public function index()

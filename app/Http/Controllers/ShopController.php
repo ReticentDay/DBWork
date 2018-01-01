@@ -58,15 +58,26 @@ class ShopController extends Controller
         if(!Auth::check())
             return "you can't do it";
         $member_id = Auth::user()->id;
-        $productList = DB::select('select p.product_name product_name,p.price price,sp.quantity quantity
-                              from shop s,shapping_car sc,shop_product sp,product p
-                              where s.member_id = :id
-                              and s.shop_id = sc.shop_id
-                              and sc.state = "NO"
-                              and sp.shop_id = sc.shop_id
-                              and sp.product_id = p.product_id',['id' => $member_id]);
+        date_default_timezone_set('Asia/Taipei');
+        $datetime= date("Y/m/d");
+        $productList = DB::select('select p.product_name product_name,p.price price,sp.quantity quantity,d.rate rate
+                                from shop s,shapping_car sc,shop_product sp,product p
+                                Left JOIN discount d
+                                on (p.product_id = d.product_id
+                                    and d.start_date <= :today_s
+                                    and d.end_date >= :today_e)
+                                where s.member_id = :id
+                                and s.shop_id = sc.shop_id
+                                and sc.state = "NO"
+                                and sp.shop_id = sc.shop_id
+                                and sp.product_id = p.product_id',['today_s' => $datetime,'today_e' => $datetime,'id' => $member_id]);
         $total = 0;
-        foreach($productList as $product)$total += $product->price * $product->quantity;
+        foreach($productList as $product){
+            $price = $product->price * $product->quantity;
+            if($product->rate != null)
+                $price *= $product->rate;
+            $total += $price;
+        }
         return view('ShoppingSystem/list',['productList' => $productList,'total' => $total]);
     }
 
@@ -76,15 +87,24 @@ class ShopController extends Controller
         if(!Auth::check())
             return "you can't do it";
         $member_id = Auth::user()->id;
-        $productList = DB::select('select p.product_name product_name,p.price price,sp.quantity quantity
-                              from shop s,shapping_car sc,shop_product sp,product p
-                              where s.member_id = :id
-                              and s.shop_id = sc.shop_id
-                              and sc.state = "NO"
-                              and sp.shop_id = sc.shop_id
-                              and sp.product_id = p.product_id',['id' => $member_id]);
+        $productList = DB::select('select p.product_name product_name,p.price price,sp.quantity quantity,d.rate rate
+                                from shop s,shapping_car sc,shop_product sp,product p
+                                Left JOIN discount d
+                                on (p.product_id = d.product_id
+                                    and d.start_date <= :today_s
+                                    and d.end_date >= :today_e)
+                                where s.member_id = :id
+                                and s.shop_id = sc.shop_id
+                                and sc.state = "NO"
+                                and sp.shop_id = sc.shop_id
+                                and sp.product_id = p.product_id',['today_s' => $datetime,'today_e' => $datetime,'id' => $member_id]);
         $total = 0;
-        foreach($productList as $product)$total += $product->price * $product->quantity;
+        foreach($productList as $product){
+            $price = $product->price * $product->quantity;
+            if($product->rate != null)
+                $price *= $product->rate;
+            $total += $price;
+        }
         return view('ShoppingSystem/order',['productList' => $productList,'total' => $total]);
     }
 
@@ -174,17 +194,27 @@ class ShopController extends Controller
             return "you can't do it";
         if(Auth::user()->user_type == 'customer' )
             return "you can't do it";
+        $datetime = DB::select('select buy_date from `order` where shop_id = :shop_id',['shop_id'=>$id]);
         $orderList = DB::select('select m.id id,m.name name,m.identity_card_number identity_card_number,m.address address
-                            ,o.shop_id shop_id,o.state state,o.buy_date buy_date
-                            ,p.product_name product_name,p.price price, sp.quantity quantity
-                            from users m ,shop s ,`order` o ,shop_product sp ,product p
-                            where o.shop_id = :shop_id
-                            and sp.shop_id = o.shop_id
-                            and sp.product_id = p.product_id
-                            and s.shop_id = o.shop_id
-                            and m.id = s.member_id',['shop_id'=>$id]);
+                                ,o.shop_id shop_id,o.state state,d.rate rate,o.buy_date buy_date
+                                ,p.product_name product_name,p.price price, sp.quantity quantity
+                                from users m ,shop s ,`order` o ,shop_product sp ,product p
+                                Left JOIN discount d
+                                on (p.product_id = d.product_id
+                                    and d.start_date <= :today_s
+                                    and d.end_date >= :today_e)
+                                where o.shop_id = :shop_id
+                                and sp.shop_id = o.shop_id
+                                and sp.product_id = p.product_id
+                                and s.shop_id = o.shop_id
+                                and m.id = s.member_id',['today_s' => $datetime[0]->buy_date,'today_e' => $datetime[0]->buy_date,'shop_id'=>$id]);
         $total = 0;
-        foreach($orderList as $product)$total += $product->price * $product->quantity;
+        foreach($orderList as $product){
+            $price = $product->price * $product->quantity;
+            if($product->rate != null)
+                $price *= $product->rate;
+            $total += $price;
+        }
         
         return view('OrderManagementSystem/check',['orderList' => $orderList,'total'=>$total]);
     }
@@ -202,17 +232,27 @@ class ShopController extends Controller
             return "you can't do it";
         if(Auth::user()->user_type == 'customer' )
             return "you can't do it";
+        $datetime = DB::select('select buy_date from `order` where shop_id = :shop_id',['shop_id'=>$id]);   
         $orderList = DB::select('select m.id id,m.name name,m.identity_card_number identity_card_number,m.address address
-                        ,o.shop_id shop_id,o.state state,o.buy_date buy_date
-                        ,p.product_name product_name,p.price price, sp.quantity quantity
-                        from users m ,shop s ,`order` o ,shop_product sp ,product p
-                        where o.shop_id = :shop_id
-                        and sp.shop_id = o.shop_id
-                        and sp.product_id = p.product_id
-                        and s.shop_id = o.shop_id
-                        and m.id = s.member_id',['shop_id'=>$id]);
+                                ,o.shop_id shop_id,o.state state,d.rate rate,o.buy_date buy_date
+                                ,p.product_name product_name,p.price price, sp.quantity quantity
+                                from users m ,shop s ,`order` o ,shop_product sp ,product p
+                                Left JOIN discount d
+                                on (p.product_id = d.product_id
+                                    and d.start_date <= :today_s
+                                    and d.end_date >= :today_e)
+                                where o.shop_id = :shop_id
+                                and sp.shop_id = o.shop_id
+                                and sp.product_id = p.product_id
+                                and s.shop_id = o.shop_id
+                                and m.id = s.member_id',['today_s' => $datetime[0]->buy_date,'today_e' => $datetime[0]->buy_date,'shop_id'=>$id]);
         $total = 0;
-        foreach($orderList as $product)$total += $product->price * $product->quantity;
+        foreach($orderList as $product){
+            $price = $product->price * $product->quantity;
+            if($product->rate != null)
+                $price *= $product->rate;
+            $total += $price;
+        }
         $order = DB::select('select o.state ,o.buy_date
                              from `order` o
                              where o.shop_id = :shop_id',['shop_id'=>$id]);

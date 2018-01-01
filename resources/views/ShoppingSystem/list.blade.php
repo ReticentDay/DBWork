@@ -158,16 +158,29 @@
     <div class="container">
   	    <div class="check-out">
             <table  border="1" >
-                <tr><th>name</th><th>quantity</th><th>Price</th></tr>
+                <tr><th>name</th><th>quantity</th><th>Rate</th><th>Price</th></tr>
                 
             @foreach($productList as $product)
                 <tr>
                 <td>{{$product->product_name}}</td>
-                <td>{{$product->quantity}}</td>
-                <td>{{$product->quantity * $product->price}}</td>
+				<td>{{$product->quantity}}</td>
+				<td>
+					@if($product->rate != null)
+						{{$product->rate}}
+					@else
+						1
+					@endif
+				</td>
+                <td>
+					@if($product->rate != null)
+						{{$product->quantity * $product->price * $product->rate}}
+					@else
+						{{$product->quantity * $product->price}}
+					@endif
+				</td>
                 <tr>
             @endforeach
-                <tr><td></td><td></td><td>{{$total}}</td></tr>
+                <tr><td></td><td></td><td></td><td>{{$total}}</td></tr>
             </table>
             <a href="/shop/order" class="hvr-shutter-in-vertical hvr-shutter-in-vertical2">結帳</a>
         </div>

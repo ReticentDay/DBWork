@@ -193,19 +193,19 @@
 					<div>
 						<span>折扣%數</span>
 						<select name="rate">
-							<option value="0.1">10% off</option>
-							<option value="0.2">20% off</option>
-							<option value="0.3">30% off</option>
-							<option value="0.4">40% off</option>
+							<option value="0.9">10% off</option>
+							<option value="0.8">20% off</option>
+							<option value="0.7">30% off</option>
+							<option value="0.6">40% off</option>
 							<option value="0.5">50% off</option>
-							<option value="0.6">60% off</option>
-							<option value="0.7">70% off</option>
-							<option value="0.8">80% off</option>
-							<option value="0.9">90% off</option>
+							<option value="0.4">60% off</option>
+							<option value="0.3">70% off</option>
+							<option value="0.2">80% off</option>
+							<option value="0.1">90% off</option>
 						</select>
 					</div>
+					<input type="submit" value="確認">
 				</form>
-				<input type="submit" value="確認">
 			</div>
 			<div class="clearfix"> </div>
 		</div>

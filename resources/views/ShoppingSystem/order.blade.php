@@ -166,6 +166,7 @@
 							<th><h3>品名</h3></th>
 							<th><h3>單價</h3></th>
 							<th><h3>數量</h3></th>
+							<th><h3>折扣</h3></th>
 							<th><h3>售價</h3></th>
 							<th><h3>總金額</h3></th>
 						</tr>
@@ -176,7 +177,20 @@
 							<td>{{$product->product_name}}</td>
 							<td>{{$product->price}}</td>
 							<th>{{$product->quantity}}</th>
-							<th>{{$product->quantity * $product->price}}</th>
+							<td>
+								@if($product->rate != null)
+									{{$product->rate}}
+								@else
+									1
+								@endif
+							</td>
+							<td>
+								@if($product->rate != null)
+									{{$product->quantity * $product->price * $product->rate}}
+								@else
+									{{$product->quantity * $product->price}}
+								@endif
+							</td>
 						</tr>
 						@endforeach
 						<tr>

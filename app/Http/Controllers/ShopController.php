@@ -87,6 +87,8 @@ class ShopController extends Controller
         if(!Auth::check())
             return "you can't do it";
         $member_id = Auth::user()->id;
+        date_default_timezone_set('Asia/Taipei');
+        $datetime= date("Y/m/d");
         $productList = DB::select('select p.product_name product_name,p.price price,sp.quantity quantity,d.rate rate
                                 from shop s,shapping_car sc,shop_product sp,product p
                                 Left JOIN discount d

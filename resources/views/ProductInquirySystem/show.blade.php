@@ -186,7 +186,7 @@
 							</div><br>
 							<p>剩餘數量：{{$product_info[0]->stock}}</p>
 							<p>狀態：{{$product_info[0]->state}}</p>
-							<p>{{$product_info[0]->info}}</p>
+							<p>{!!$product_info[0]->info!!}</p>
 						</div>
 						@if($user_type != 'customer')
 							<a href="/product/{{$product_info[0]->product_id}}/edit" class="hvr-shutter-in-vertical cart-to">fix</a>

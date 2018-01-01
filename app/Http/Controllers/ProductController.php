@@ -97,6 +97,8 @@ class ProductController extends Controller
                                     where product_id = :id'
                                     ,['id'=>$id]);
         //dd($product_info);
+        if(!Auth::check())
+            return view('ProductInquirySystem/show',['product_info'=>$product_info,'user_type'=>'customer']);
         return view('ProductInquirySystem/show',['product_info'=>$product_info,'user_type'=>Auth::user()->user_type]);
     }
 
